@@ -147,12 +147,6 @@ python main.py --log-file sample_logs/auth.log --es-host http://localhost:9200
 
 ---
 
-## 📄 Resume Bullet (Copy/Paste Ready)
-
-**“Built a Python-based log aggregation and detection pipeline integrating with Elasticsearch. Designed normalization schema, implemented detection-as-code using YAML rules, automated ingestion of Linux auth logs, and created dashboards in Kibana to visualize brute force attacks and suspicious process executions.”**
-
----
-
 ## 🔧 Future Enhancements
 
 * Docker Compose (Pipeline + ES + Kibana)
@@ -168,3 +162,4 @@ If you'd like, I can also:
 ✔ Generate a Docker Compose setup
 ✔ Add GitHub Actions CI & unit tests
 ✔ Make this README even more flashy for recruiters
+
