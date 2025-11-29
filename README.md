@@ -155,11 +155,5 @@ python main.py --log-file sample_logs/auth.log --es-host http://localhost:9200
 * Sliding-window brute-force detection (stateful)
 * Replace `eval` with safe rule evaluator (AST/DSL)
 
----
 
-If you'd like, I can also:
-✔ Add badges & visuals (architecture diagram, screenshots)
-✔ Generate a Docker Compose setup
-✔ Add GitHub Actions CI & unit tests
-✔ Make this README even more flashy for recruiters
 
