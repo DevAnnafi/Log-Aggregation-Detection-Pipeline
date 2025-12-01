@@ -5,7 +5,11 @@ import re
 import ipaddress
 from typing import Dict, Any
 
-df_logs = pd.read_csv("sample_logs/london.csv")
+df_logs = pd.read_csv("sample_logs/london.csv", header=0)
+
+# Drop accidental header rows
+df_logs = df_logs[df_logs["time"].str.contains(r"\d{2}/\d{2}/\d{4}", na=False)]
+
 
 def normalize_timestamp(raw_timestamp: str) -> str:
     """
@@ -25,9 +29,7 @@ for index, row in df_logs.iterrows():
     normalized_list.append(normalized_ts)
 df_logs["normalized_time"] = normalized_list
 
-
-print(normalize_timestamp("05/01/2021, 19:42:28"))
-   
+print(df_logs.head())
 
 
 
