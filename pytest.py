@@ -35,3 +35,43 @@ class TestNormalizeTimestamp(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+# Bring your function here for testing
+def event_type(raw_payload):
+    if raw_payload.startswith("b'\\x16"):
+        return "tls_handshake"
+    elif raw_payload.startswith("GET") or raw_payload.startswith("'GET"):
+        return "http_request"
+    elif raw_payload.startswith("b'\\x00\\x00") or raw_payload.startswith("SMBr"):
+        return "smb_probe"
+    elif raw_payload.strip() in ["''", '"\'\'"']:
+        return "empty_payload"
+    else:
+        return "text_probe"
+
+
+class TestEventType(unittest.TestCase):
+
+    def test_tls_handshake(self):
+        payload = "b'\\x16\\x03\\x01\\x00{'"
+        self.assertEqual(event_type(payload), "tls_handshake")
+
+    def test_http_request(self):
+        payload = "'GET / HTTP/1.1\\r\\nHost: 3.8.136.101:16026\\r\\n\\r\\n'"
+        self.assertEqual(event_type(payload), "http_request")
+
+    def test_smb_probe(self):
+        payload = "b'\\x00\\x00\\x00T\\xffSMBr.....'"
+        self.assertEqual(event_type(payload), "smb_probe")
+
+    def test_empty_payload(self):
+        payload = "''"
+        self.assertEqual(event_type(payload), "empty_payload")
+
+    def test_text_probe(self):
+        payload = "'myversion|3.6 Public\\r\\n'"
+        self.assertEqual(event_type(payload), "text_probe")
+
+
+if __name__ == "__main__":
+    unittest.main()

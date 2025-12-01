@@ -29,10 +29,45 @@ for index, row in df_logs.iterrows():
     normalized_list.append(normalized_ts)
 df_logs["normalized_time"] = normalized_list
 
-print(df_logs.head())
+
+def event_type(raw_payload: str) -> str:
+    """
+    Determine the event type based on the payload content.
+    """
+
+    if not isinstance(raw_payload, str) or raw_payload.strip() == "":
+        return "empty_payload"
+
+    # Remove outer quotes if they exist
+    clean = raw_payload.strip().strip('"').strip("'")
+
+    # TLS Handshake (binary TLS bytes always start with \x16 03)
+    if clean.startswith("b'\\x16") or clean.startswith('b"\\x16'):
+        return "tls_handshake"
+
+    # HTTP request
+    if clean.startswith("GET") or clean.startswith("POST") or "HTTP/1" in clean:
+        return "http_request"
+
+    # SMB scan
+    if "SMBr" in clean:
+        return "smb_probe"
+
+    # Completely empty
+    if clean == "":
+        return "empty_payload"
+
+    return "text_probe"
 
 
+normalized_event_type = []
 
+for index, row in df_logs.iterrows():
+    raw_payload = row["payload"]
+    normalized_event = event_type(raw_payload)
+    normalized_event_type.append(normalized_event)
+
+df_logs["event_type"] = normalized_event_type
 
 
 
