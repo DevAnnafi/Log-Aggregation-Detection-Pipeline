@@ -89,6 +89,43 @@ def normalize_ip(raw_ip: str) -> str | None:
 
 df_logs["normalized_ip"] = df_logs["from"].apply(normalize_ip)
 
+def normalize_port(raw_port: str | int) -> int | None:
+
+    """
+    Normalize a port value.
+    - Converts string to int
+    - Validates range 0-65535
+    - Returns int or None for invalid values
+    """
+
+    if raw_port is None:
+        return None
+    
+    clean_port = raw_port.strip().strip("").strip("")
+
+    if isinstance(raw_port, str):
+        cleaned = raw_port.strip().strip("'").strip('"')
+    else:
+        cleaned = str(raw_port)
+
+    if cleaned == "" or cleaned.lower() == "null":
+        return None
+
+    try:
+        port_int = int(cleaned)
+        if 0 <= port_int <= 65535:
+            return port_int
+        else:
+            return None
+    except ValueError:
+        return None
+
+df_logs["normalized_port"] = df_logs["port"].apply(normalize_port)
+
+
+
+
+
 
 
 
