@@ -70,5 +70,25 @@ for index, row in df_logs.iterrows():
 df_logs["event_type"] = normalized_event_type
 
 
+def normalize_ip(raw_ip: str) -> str | None:
+
+    if raw_ip is None:
+        return None
+
+    clean_ip = raw_ip.strip().strip("'").strip("'")
+
+    if clean_ip == "" or clean_ip.lower() == "null":
+        return None
+
+    try:
+        # Validate and convert to canonical format
+        ip_obj = ipaddress.ip_address(clean_ip)
+        return str(ip_obj)
+    except ValueError:
+        return None
+
+df_logs["normalized_ip"] = df_logs["from"].apply(normalize_ip)
+
+
 
 
