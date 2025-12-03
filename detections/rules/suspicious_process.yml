@@ -1,0 +1,21 @@
+rule_id: suspicious_process_001
+name: Suspicious Process Execution on Linux
+tags: ["Elastic", "Execution", "Suspicious Process", "T1059"]
+description: Detects suspicious processes or execution from temporary files on Linux systems.
+severity: medium
+risk_score: 55
+type: query
+index:
+  - logs-*
+  - auditbeat-*
+query: >
+  process.name: (
+      "nc" or "netcat" or "bash" or "sh" or "python" or "python3" or "socat" or "wget" or "curl"
+  )
+  AND process.executable: (
+      "/tmp/*" or "/dev/shm/*" or "/var/tmp/*"
+  )
+references: []
+author: "Annafi"
+license: "Elastic License v2"
+rule_version: 1
