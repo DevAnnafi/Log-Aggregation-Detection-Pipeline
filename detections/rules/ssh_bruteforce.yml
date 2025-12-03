@@ -1,0 +1,20 @@
+rule_id: ssh_bruteforce_001
+name: SSH Bruteforce Attempts
+tags: ["Elastic", "Credential Access", "Bruteforce", "T1110"]
+description: Detects multiple failed SSH login attempts from the same source IP within 5 minutes.
+severity: high
+risk_score: 73
+type: threshold
+index:
+  - logs-*
+  - syslog-*
+query: >
+  event.dataset: "ssh" AND message:*"Failed password"*
+threshold:
+  field: "source.ip"
+  value: 10
+  timeframe: "5m"
+references: []
+author: "Annafi"
+license: "Elastic License v2"
+rule_version: 1
