@@ -9,7 +9,7 @@ index:
   - logs-*
   - syslog-*
 query: >
-  event.dataset: "ssh" AND message:*"Failed password"*
+  event_dataset:"ssh" AND message:*"Failed password"*
 threshold:
   field: "source.ip"
   value: 10

@@ -9,12 +9,24 @@ index:
   - logs-*
   - auditbeat-*
 query: >
-  process.name: (
-      "nc" or "netcat" or "bash" or "sh" or "python" or "python3" or "socat" or "wget" or "curl"
-  )
-  AND process.executable: (
-      "/tmp/*" or "/dev/shm/*" or "/var/tmp/*"
-  )
+  process.name:*"nc"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"netcat"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"bash"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"sh"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"python"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"python3"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"socat"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"wget"* AND
+  process.executable:*"/tmp/"* OR
+  process.name:*"curl"* AND
+  process.executable:*"/tmp/"*
 references: []
 author: "Annafi"
 license: "Elastic License v2"
